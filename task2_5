@@ -1,0 +1,52 @@
+using System;
+using System.IO;
+using System.Linq;
+
+namespace FKN_2_5
+{
+    internal class Program
+    {
+        public static void Main(string[] args)
+        {
+            string line;
+            //Попытка выполнить код, в случае ошибки возвращает описание
+            try
+            {
+                //Поток для чтения
+                StreamReader sr = new StreamReader("C:\\fin.txt");
+                
+                //Читаем весь файл
+                string str = sr.ReadLine();
+                line = str;
+                while (str != null)
+                {
+                    str = sr.ReadLine();
+                    line += str;
+                    //Console.WriteLine(line);
+                }
+                sr.Close();
+                
+                //Делим строчку на массив строк из чисел
+                char[] delimeters = {' ', '\n', '\r'};
+                string[] numbers = line.Split(delimeters);
+                
+                //Лямбда - выражение, чтобы избавиться от пустых строк
+                numbers = numbers.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                int count = numbers.Length;
+                Console.WriteLine($"Количество чисел: {count}");
+                int sum = 0;
+                for (int i = 0; i < count; i++)
+                {
+                    
+                    //Превращение строк в числа
+                    sum += int.Parse(numbers[i]);
+                }
+                Console.WriteLine($"Сумма чисел: {sum}");
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+        }
+    }
+}
